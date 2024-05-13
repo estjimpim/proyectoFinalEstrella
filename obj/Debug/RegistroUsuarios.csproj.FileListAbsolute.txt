@@ -42,5 +42,4 @@ C:\Users\Alberto\source\repos\RegistroUsuarios\bin\Debug\System.Runtime.Compiler
 C:\Users\Alberto\source\repos\RegistroUsuarios\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.csproj.CopyComplete
 C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.Form2.resources
-C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.Form4.resources
 C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.Form3.resources

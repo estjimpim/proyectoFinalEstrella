@@ -60,20 +60,9 @@ namespace RegistroUsuarios
                 // Si el usuario y la contraseña son válidos, abrir el formulario correspondiente
                 if (usuarioValido)
                 {
-                    if (rol == "Profesor")
-                    {  
-                        // Abrir Form3
-                        Form3 form3 = new Form3(nombreUsuario);
-                        
-                        
-                        form3.Show();
-                    }
-                    else if (rol == "Alumno")
-                    {
-                        // Abrir Form4
-                        Form4 form4 = new Form4(nombreUsuario);
-                        form4.Show();
-                    }
+                    // Abrir Form3
+                    Form3 form3 = new Form3(nombreUsuario);
+                    form3.Show();                 
 
                     // Cerrar Form2
                     this.Hide();
@@ -85,10 +74,5 @@ namespace RegistroUsuarios
             }
         }
 
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

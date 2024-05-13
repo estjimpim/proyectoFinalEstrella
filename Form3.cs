@@ -138,7 +138,7 @@ namespace RegistroUsuarios
         try
         {
             con.connOpen();
-            string query = $"SELECT nombre, correo, contra, telefono, curso FROM usuarios WHERE nombre = '{nombreUsuario}'";
+            string query = $"SELECT nombre, correo, contra, telefono FROM usuarios WHERE nombre = '{nombreUsuario}'";
             MySqlCommand cmd = new MySqlCommand(query, Data.Connection.connMaster);
             MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -148,13 +148,11 @@ namespace RegistroUsuarios
                 string correo = reader.GetString("correo");
                 string contra = reader.GetString("contra");
                 string telefono = reader.GetString("telefono");
-                string curso = reader.GetString("curso");
 
                 textBox1.Text = nombre;
                 textBox2.Text = correo;
                 textBox3.Text = contra;
                 textBox4.Text = telefono;
-                textBox5.Text = curso;
             }
             else
             {
@@ -170,10 +168,6 @@ namespace RegistroUsuarios
             con.connClose();
         }
     }
-
-        private void Nombre_Click(object sender, EventArgs e)
-        {
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -217,12 +211,6 @@ namespace RegistroUsuarios
             }
         
     }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button7_Click(object sender, EventArgs e)
         {
             // Ocultar el formulario actual
