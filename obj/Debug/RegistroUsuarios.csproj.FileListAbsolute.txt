@@ -43,3 +43,4 @@ C:\Users\Alberto\source\repos\RegistroUsuarios\bin\Debug\System.Threading.Tasks.
 C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.csproj.CopyComplete
 C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.Form2.resources
 C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.Form3.resources
+C:\Users\Alberto\source\repos\RegistroUsuarios\obj\Debug\RegistroUsuarios.Form4.resources

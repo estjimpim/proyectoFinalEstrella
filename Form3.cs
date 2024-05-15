@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
+
 
 namespace RegistroUsuarios
 {
@@ -21,6 +24,7 @@ namespace RegistroUsuarios
             InitializeComponent();
             this.nombreUsuario = nombreUsuario;
             con = new Data.Connection();
+            this.Load += Form3_Load;
 
             // Verificar si es la primera vez que el usuario accede
             if (esPrimeraVezAbrirFormulario())
@@ -38,8 +42,36 @@ namespace RegistroUsuarios
                     this.Close();
                 }
             }
-            RellenarDatosUsuario();
         }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+            CargarItemsDesdeArchivo();
+        }
+
+        private void CargarItemsDesdeArchivo()
+        {
+            listBox1.Items.Clear(); // Limpiamos los elementos anteriores
+
+            string filePath = "Fechas validez documentos.txt";
+
+            if (File.Exists(filePath))
+            {
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    string linea;
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        listBox1.Items.Add(linea); // Agregar cada línea como un elemento separado
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("El archivo no existe.");
+            }
+        }
+
 
         private bool esPrimeraVezAbrirFormulario()
         {
@@ -132,85 +164,51 @@ namespace RegistroUsuarios
                 MessageBox.Show("La contraseña no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-   
-    private void RellenarDatosUsuario()
-    {
-        try
-        {
-            con.connOpen();
-            string query = $"SELECT nombre, correo, contra, telefono FROM usuarios WHERE nombre = '{nombreUsuario}'";
-            MySqlCommand cmd = new MySqlCommand(query, Data.Connection.connMaster);
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-            {
-                string nombre = reader.GetString("nombre");
-                string correo = reader.GetString("correo");
-                string contra = reader.GetString("contra");
-                string telefono = reader.GetString("telefono");
-
-                textBox1.Text = nombre;
-                textBox2.Text = correo;
-                textBox3.Text = contra;
-                textBox4.Text = telefono;
-            }
-            else
-            {
-                MessageBox.Show("No se encontraron datos para el usuario actual.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Error al obtener datos del usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        finally
-        {
-            con.connClose();
-        }
-    }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Obtener el curso del usuario actual
-            string cursoProfesor = textBox5.Text;
+            // Ocultar el formulario actual
+            this.Hide();
 
-            // Crear una lista para almacenar los usuarios que cumplan con los criterios
-            List<string> usuariosAlumnos = new List<string>();
+            // Crear una instancia del Form2
+            Form2 form2 = new Form2();
 
-            try
-            {
-                con.connOpen();
-                string query = $"SELECT nombre FROM usuarios WHERE rol = 'alumno' AND curso = '{cursoProfesor}'";
-                MySqlCommand cmd = new MySqlCommand(query, Data.Connection.connMaster);
-                MySqlDataReader reader = cmd.ExecuteReader();
+            // Mostrar el Form2
+            form2.Show();
+        }
 
-                while (reader.Read())
-                {
-                    string nombreAlumno = reader.GetString("nombre");
-                    usuariosAlumnos.Add(nombreAlumno);
-                }
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage1;
+        }
 
-                if (usuariosAlumnos.Count > 0)
-                {
-                    // Aquí puedes realizar cualquier acción con la lista de usuarios alumnos, por ejemplo, mostrarlos en un MessageBox
-                    string mensaje = "Usuarios alumnos con el mismo curso:\n" + string.Join("\n", usuariosAlumnos);
-                    MessageBox.Show(mensaje, "Usuarios Alumnos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("No se encontraron usuarios alumnos con el mismo curso.", "Usuarios Alumnos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al obtener usuarios alumnos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                con.connClose();
-            }
-        
-    }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage2;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage4;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage5;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage6;
+        }
+
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage7;
+        }
+
+
         private void button7_Click(object sender, EventArgs e)
         {
             // Ocultar el formulario actual
@@ -221,6 +219,47 @@ namespace RegistroUsuarios
 
             // Mostrar el Form2
             form2.Show();
+        }
+
+        //En este caso, he metido fechas de forma directa, no cogiéndolas de una BBDD:
+     
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form4 form4 = new Form4(dataGridView1);
+            form4.Show();
+        }
+
+        private void profesional_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+
+        private void tabPage6_Load(object sender, EventArgs e)
+        {
+            var fechaActual = DateTime.Now;
+            dateTimePicker1.MinDate = fechaActual;
+            monthCalendar1.MinDate = fechaActual;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            listBox1.Items.Add("Identificador: "+ id.Text + "\tNombre: " + nombreU.Text + "\tApellidos: " + apellidosU.Text + "\tProfesional: " + profesional.SelectedItem + "\tDocumento que caduca: " + documento.SelectedItem + "\tFecha: "+ dateTimePicker1.Text);
+            StreamWriter sw = new StreamWriter("Fechas validez documentos.txt", true);
+            sw.WriteLine("Identificador: "+ id.Text + "\tNombre: " + nombreU.Text + "\tApellidos: " + apellidosU.Text + "\tProfesional: " + profesional.SelectedItem + "\tDocumento que caduca: " + documento.SelectedItem + "\tFecha: "+ dateTimePicker1.Text);
+            sw.Close();
+        }
+
+        private void vencimientos_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear(); // Limpiamos los elementos anteriores
+            string linea;
+            StreamReader sr = new StreamReader("Fechas validez documentos.txt");
+            while ((linea = sr.ReadLine()) != null){
+                    listBox1.Items.Add(linea); // Agregar cada línea como un elemento separado
+            }
         }
     }
 }

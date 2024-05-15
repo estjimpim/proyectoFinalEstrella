@@ -356,5 +356,7 @@ namespace RegistroUsuarios
             // Mostrar el Form2
             form2.Show();
         }
+
+      
     }
 }
