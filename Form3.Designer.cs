@@ -74,6 +74,10 @@ namespace RegistroUsuarios
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.NombreProfesor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CorreoProfesor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
@@ -106,14 +110,10 @@ namespace RegistroUsuarios
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.label4 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.button13 = new System.Windows.Forms.Button();
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.button12 = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.button13 = new System.Windows.Forms.Button();
-            this.NombreProfesor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CorreoProfesor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -630,6 +630,44 @@ namespace RegistroUsuarios
             this.dataGridView2.Size = new System.Drawing.Size(1011, 632);
             this.dataGridView2.TabIndex = 0;
             // 
+            // NombreProfesor
+            // 
+            this.NombreProfesor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.NombreProfesor.DefaultCellStyle = dataGridViewCellStyle1;
+            this.NombreProfesor.HeaderText = "Nombre";
+            this.NombreProfesor.MinimumWidth = 8;
+            this.NombreProfesor.Name = "NombreProfesor";
+            this.NombreProfesor.ReadOnly = true;
+            this.NombreProfesor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // CorreoProfesor
+            // 
+            this.CorreoProfesor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CorreoProfesor.HeaderText = "Correo";
+            this.CorreoProfesor.MinimumWidth = 8;
+            this.CorreoProfesor.Name = "CorreoProfesor";
+            this.CorreoProfesor.ReadOnly = true;
+            this.CorreoProfesor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // telefono
+            // 
+            this.telefono.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.telefono.HeaderText = "Telefono";
+            this.telefono.MinimumWidth = 8;
+            this.telefono.Name = "telefono";
+            this.telefono.ReadOnly = true;
+            this.telefono.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // rol
+            // 
+            this.rol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.rol.HeaderText = "Rol";
+            this.rol.MinimumWidth = 8;
+            this.rol.Name = "rol";
+            this.rol.ReadOnly = true;
+            this.rol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.CadetBlue;
@@ -878,10 +916,11 @@ namespace RegistroUsuarios
             // 
             this.dateTimePicker1.Font = new System.Drawing.Font("Century Gothic", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Location = new System.Drawing.Point(40, 342);
-            this.dateTimePicker1.MinDate = new System.DateTime(2024, 5, 15, 0, 0, 0, 0);
+            this.dateTimePicker1.MinDate = new System.DateTime(2024, 5, 20, 19, 25, 16, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(454, 27);
             this.dateTimePicker1.TabIndex = 16;
+            this.dateTimePicker1.Value = new System.DateTime(2024, 5, 20, 19, 25, 16, 0);
             // 
             // vencimientos
             // 
@@ -1005,6 +1044,18 @@ namespace RegistroUsuarios
             this.tabPage7.Size = new System.Drawing.Size(1017, 667);
             this.tabPage7.TabIndex = 6;
             // 
+            // button13
+            // 
+            this.button13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.button13.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button13.Location = new System.Drawing.Point(629, 66);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(321, 43);
+            this.button13.TabIndex = 3;
+            this.button13.Text = "Eliminar nota";
+            this.button13.UseVisualStyleBackColor = false;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
             // listBox3
             // 
             this.listBox3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1017,67 +1068,19 @@ namespace RegistroUsuarios
             // 
             // button12
             // 
+            this.button12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.button12.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button12.Location = new System.Drawing.Point(81, 67);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(315, 42);
             this.button12.TabIndex = 1;
             this.button12.Text = "Añadir nota";
-            this.button12.UseVisualStyleBackColor = true;
+            this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click_1);
             // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog2";
-            // 
-            // button13
-            // 
-            this.button13.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button13.Location = new System.Drawing.Point(629, 66);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(321, 43);
-            this.button13.TabIndex = 3;
-            this.button13.Text = "Eliminar nota";
-            this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
-            // 
-            // NombreProfesor
-            // 
-            this.NombreProfesor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.NombreProfesor.DefaultCellStyle = dataGridViewCellStyle1;
-            this.NombreProfesor.HeaderText = "Nombre";
-            this.NombreProfesor.MinimumWidth = 8;
-            this.NombreProfesor.Name = "NombreProfesor";
-            this.NombreProfesor.ReadOnly = true;
-            this.NombreProfesor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // CorreoProfesor
-            // 
-            this.CorreoProfesor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CorreoProfesor.HeaderText = "Correo";
-            this.CorreoProfesor.MinimumWidth = 8;
-            this.CorreoProfesor.Name = "CorreoProfesor";
-            this.CorreoProfesor.ReadOnly = true;
-            this.CorreoProfesor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // telefono
-            // 
-            this.telefono.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.telefono.HeaderText = "Telefono";
-            this.telefono.MinimumWidth = 8;
-            this.telefono.Name = "telefono";
-            this.telefono.ReadOnly = true;
-            this.telefono.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // rol
-            // 
-            this.rol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.rol.HeaderText = "Rol";
-            this.rol.MinimumWidth = 8;
-            this.rol.Name = "rol";
-            this.rol.ReadOnly = true;
-            this.rol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // Form3
             // 

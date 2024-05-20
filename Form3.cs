@@ -430,7 +430,7 @@ namespace RegistroUsuarios
             }
         }
 
-        private void vencimientos_Click(object sender, EventArgs e)
+    private void vencimientos_Click(object sender, EventArgs e)
     {
         // primero limpio los elementos anteriores
         if (listBox1.DataSource == null)
@@ -443,13 +443,11 @@ namespace RegistroUsuarios
             // Paso a recorrer los documentos originales y agregar solo aquellos cuya fecha sea posterior a la fecha actual
             foreach (string documento in documentosOriginales)
             {
-                // Obtener la fecha del documento
                 DateTime fechaDocumento = ObtenerFechaVencimiento(documento);
 
-                // Comparar la fecha del documento con la fecha actual
                 if (fechaDocumento >= fechaActual)
                 {
-                    listBox1.Items.Add(documento); // Agregar el documento al ListBox solo si la fecha es posterior o igual a la fecha actual
+                    listBox1.Items.Add(documento); 
                 }
             }
         }
@@ -578,40 +576,37 @@ namespace RegistroUsuarios
         }
 
         private void button11_Click(object sender, EventArgs e)
-        {
-            
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Title = "Seleccionar documento";
-                openFileDialog.Filter = "Archivos de texto (*.txt)|*.txt|Todos los archivos (*.*)|*.*";
+        {            
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Seleccionar documento";
+            openFileDialog.Filter = "Archivos de texto (*.txt)|*.txt|Todos los archivos (*.*)|*.*";
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string nombreArchivo = Path.GetFileName(openFileDialog.FileName);
-                    string destino = Path.Combine(Application.StartupPath, "Documentos", nombreArchivo);
-
-                    // Copiar el archivo seleccionado a la carpeta de Documentos de la aplicación
-                    File.Copy(openFileDialog.FileName, destino);
-
-                    MessageBox.Show("Documento subido con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Actualizar la lista de documentos
-                    ActualizarListaDocumentos();
-                }
-            }
-
-            private void ActualizarListaDocumentos()
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                listBox2.Items.Clear();
+                string nombreArchivo = Path.GetFileName(openFileDialog.FileName);
+                string destino = Path.Combine(Application.StartupPath, "Documentos", nombreArchivo);
 
-                // Obtener la lista de archivos en la carpeta de Documentos de la aplicación
-                string[] archivos = Directory.GetFiles(Path.Combine(Application.StartupPath, "Documentos"));
+                // copio el archivo seleccionado a la carpeta de Documentos de la aplicación
+                File.Copy(openFileDialog.FileName, destino);
 
-                foreach (string archivo in archivos)
-                {
-                listBox2.Items.Add(Path.GetFileName(archivo));
-                }
-            
+                MessageBox.Show("Documento subido con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // llamo al método 
+                ActualizarListaDocumentos();
+            }
+        }
+
+        private void ActualizarListaDocumentos()
+        {
+            listBox2.Items.Clear();
+
+            // obtengo la lista de archivos en la carpeta de Documentos
+            string[] archivos = Directory.GetFiles(Path.Combine(Application.StartupPath, "Documentos"));
+
+            foreach (string archivo in archivos)
+            {
+            listBox2.Items.Add(Path.GetFileName(archivo));
+            }   
         }
 
         private void listBox2_DoubleClick(object sender, EventArgs e)
