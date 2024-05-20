@@ -29,10 +29,8 @@ namespace RegistroUsuarios
             ActualizarListaDocumentos();
             listBox2.DoubleClick += new EventHandler(listBox2_DoubleClick);
 
-            // Verificar si es la primera vez que el usuario accede
             if (esPrimeraVezAbrirFormulario())
             {
-                // Mostrar un cuadro de diálogo para cambiar la contraseña
                 DialogResult result = MessageBox.Show("Es la primera vez que accede. ¿Desea cambiar su contraseña?", "Cambio de contraseña", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -55,10 +53,8 @@ namespace RegistroUsuarios
             this.tabIndex = tabIndex;
             con = new Data.Connection();
 
-            // Seleccionar el TabPage indicado
             this.Load += Form3_Load;
 
-            // Verificar si se deben cargar los datos de usuario y residentes
             if (cargarDatos)
             {
                 CargarDatosUsuarios();
@@ -153,7 +149,7 @@ namespace RegistroUsuarios
 
         private void CargarItemsDesdeArchivo()
         {
-            listBox1.Items.Clear(); // Limpiamos los elementos anteriores
+            listBox1.Items.Clear(); 
 
             string filePath = "Fechas validez documentos.txt";
 
@@ -164,7 +160,7 @@ namespace RegistroUsuarios
                     string linea;
                     while ((linea = sr.ReadLine()) != null)
                     {
-                        listBox1.Items.Add(linea); // Agregar cada línea como un elemento separado
+                        listBox1.Items.Add(linea); 
                     }
                 }
             }
@@ -226,7 +222,6 @@ namespace RegistroUsuarios
                 };
 
 
-                // Cambiar el tipo de letra a Century Gothic para el texto y el tamaño a 10 puntos
                 TextBox textBox = new TextBox()
                 {
                     Left = 50,
@@ -235,7 +230,6 @@ namespace RegistroUsuarios
                     Font = new Font("Century Gothic", 10)
                 };
 
-                // Cambiar el tipo de letra a Century Gothic para el texto y el tamaño a 10 puntos
                 Button confirmation = new Button()
                 {
                     Text = "Aceptar",
@@ -294,13 +288,10 @@ namespace RegistroUsuarios
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Ocultar el formulario actual
             this.Hide();
 
-            // Crear una instancia del Form2
             Form2 form2 = new Form2();
 
-            // Mostrar el Form2
             form2.Show();
         }
 
@@ -373,21 +364,16 @@ namespace RegistroUsuarios
             // Agrego la cadena al ListBox
             listBox1.Items.Add(itemListBox);
 
-            // Guardar la cadena en el archivo
             using (StreamWriter sw = new StreamWriter("Fechas validez documentos.txt", true))
             {
                 sw.WriteLine(itemListBox);
             }
         }
 
-
-
-
         private void textBox2_Enter(object sender, EventArgs e)
         {
             textBox2.SelectAll(); // Borra el contenido del TextBox cuando se hace clic en él
         }
-
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -454,58 +440,44 @@ namespace RegistroUsuarios
     }
         private DateTime ObtenerFechaVencimiento(string documento)
         {
-            // Buscar el índice del separador de fecha (por ejemplo, ":")
             int indiceSeparador = documento.LastIndexOf(':');
 
-            // Verificar si se encontró el separador y si hay texto después de él
             if (indiceSeparador != -1 && indiceSeparador < documento.Length - 1)
             {
-                // Obtener la subcadena que representa la fecha
                 string fechaString = documento.Substring(indiceSeparador + 1).Trim();
 
-                // Dividir la cadena de fecha en partes (día, mes, año)
                 string[] partesFecha = fechaString.Split('/');
 
-                // Verificar si hay suficientes partes para representar una fecha válida
                 if (partesFecha.Length == 3)
                 {
-                    // Obtener los componentes de la fecha (día, mes, año)
                     int dia, mes, anio;
                     if (int.TryParse(partesFecha[0], out dia) && int.TryParse(partesFecha[1], out mes) && int.TryParse(partesFecha[2], out anio))
                     {
-                        // Verificar si la fecha es válida
                         if (dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && anio >= 1900 && anio <= 9999)
                         {
-                            // Crear un objeto DateTime con los componentes de la fecha
                             return new DateTime(anio, mes, dia);
                         }
                     }
                 }
 
-                // Manejar el caso en que la cadena de fecha no sea válida
                 throw new FormatException("Formato de fecha no válido en el documento: " + documento);
             }
             else
             {
-                // Manejar el caso en que no se pueda encontrar el separador de fecha en el documento
                 throw new FormatException("Separador de fecha no encontrado en el documento: " + documento);
             }
         }
 
         public void SeleccionarTabPage(string nombreTabPage)
         {
-            // Buscar el TabPage por su nombre
             TabPage tabPage = tabControl1.TabPages[nombreTabPage];
 
-            // Verificar si se encontró el TabPage
             if (tabPage != null)
             {
-                // Seleccionar el TabPage encontrado
                 tabControl1.SelectedTab = tabPage;
             }
             else
             {
-                // Mostrar un mensaje de error si no se encuentra el TabPage
                 MessageBox.Show("No se encontró el TabPage especificado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -518,17 +490,14 @@ namespace RegistroUsuarios
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
                 string tabla = "residentes";
 
-                // Obtener el nombre del usuario de la fila seleccionada
                 string nombreResidente = selectedRow.Cells[0].Value.ToString();
 
                 DialogResult result = MessageBox.Show("¿Estás seguro que deseas borrar esta fila?", "Confirmar Borrado", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    // Eliminar la fila del DataGridView
                     dataGridView1.Rows.Remove(selectedRow);
 
-                    // Eliminar la fila correspondiente de la base de datos
                     EliminarFilaDeBaseDeDatos(tabla, nombreResidente);
                 }
             }
@@ -541,18 +510,15 @@ namespace RegistroUsuarios
         {
             try
             {
-                // Abrir la conexión
                 Data.Connection con = new Data.Connection();
                 con.connOpen();
 
                 if (con.isConnected())
                 {
-                    // Consulta SQL para eliminar la fila
                     string queryEliminarFila = $"DELETE FROM {tabla} WHERE nombre = @nombre";
                     MySqlCommand cmdEliminarFila = new MySqlCommand(queryEliminarFila, Data.Connection.connMaster);
                     cmdEliminarFila.Parameters.AddWithValue("@nombre", nombreUsuario);
 
-                    // Ejecutar la consulta
                     bool exito = con.executeQuery(cmdEliminarFila);
 
                     if (exito)
@@ -620,7 +586,6 @@ namespace RegistroUsuarios
                 {
                     try
                     {
-                        // Abre el archivo con la aplicación predeterminada
                         System.Diagnostics.Process.Start(rutaArchivo);
                     }
                     catch (Exception ex)
@@ -673,21 +638,16 @@ namespace RegistroUsuarios
             {
                 try
                 {
-                    // Abrir conexión a la base de datos
                     con.connOpen();
-
-                    // Insertar la nueva nota en la base de datos
                     string query = "INSERT INTO notasdb (nota) VALUES (@nota)";
                     MySqlCommand cmd = new MySqlCommand(query, Data.Connection.connMaster);
                     cmd.Parameters.AddWithValue("@nota", nuevaNota);
                     int filasInsertadas = cmd.ExecuteNonQuery();
 
-                    // Verificar si la inserción fue exitosa
                     if (filasInsertadas > 0)
                     {
                         MessageBox.Show("La nota se ha agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Agregar la nueva nota al listBox3
                         listBox3.Items.Add(nuevaNota);
                     }
                     else
@@ -701,7 +661,6 @@ namespace RegistroUsuarios
                 }
                 finally
                 {
-                    // Cerrar la conexión a la base de datos
                     con.connClose();
                 }
             }
@@ -713,30 +672,22 @@ namespace RegistroUsuarios
 
         private void button13_Click(object sender, EventArgs e)
         {
-            // Verificar si se ha seleccionado una nota en el listBox3
             if (listBox3.SelectedIndex != -1)
             {
-                // Obtener el índice de la nota seleccionada
                 int indiceSeleccionado = listBox3.SelectedIndex;
-
-                // Obtener la nota seleccionada
                 string notaSeleccionada = listBox3.SelectedItem.ToString();
 
                 try
                 {
-                    // Abrir conexión a la base de datos
                     con.connOpen();
 
-                    // Eliminar la nota de la base de datos
                     string query = "DELETE FROM notasdb WHERE Nota = @nota";
                     MySqlCommand cmd = new MySqlCommand(query, Data.Connection.connMaster);
                     cmd.Parameters.AddWithValue("@nota", notaSeleccionada);
                     int filasAfectadas = cmd.ExecuteNonQuery();
 
-                    // Verificar si se eliminó la nota correctamente
                     if (filasAfectadas > 0)
                     {
-                        // Eliminar la nota del listBox3
                         listBox3.Items.RemoveAt(indiceSeleccionado);
 
                         MessageBox.Show("La nota seleccionada se ha eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -752,7 +703,6 @@ namespace RegistroUsuarios
                 }
                 finally
                 {
-                    // Cerrar conexión a la base de datos
                     con.connClose();
                 }
             }

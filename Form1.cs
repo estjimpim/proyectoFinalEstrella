@@ -35,10 +35,7 @@ namespace RegistroUsuarios
 
                
                 dataGridView1.Rows.Add(nombre, correo, contra, telefono, rol);
-                
-           
             }
-
             reader.Close();
             con.connClose();
         }
@@ -46,12 +43,9 @@ namespace RegistroUsuarios
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            //Enviar correo
             Data.Correo newCorreo = new Data.Correo();
             newCorreo.enviarCorreo(textBox3.Text, "Alta " + textBox1.Text, textBox1.Text, textBox2.Text);
 
-            //Añadir los datos a la tabla dataGridView1
             dataGridView1.Rows.Add();
             int n = dataGridView1.Rows.Count;
 
@@ -61,11 +55,8 @@ namespace RegistroUsuarios
             dataGridView1.Rows[n - 1].Cells[3].Value = textBox5.Text;
             dataGridView1.Rows[n - 1].Cells[4].Value = comboBox1.SelectedItem.ToString();
 
-            // Guardar los datos en la base de datos
             GuardarDatosEnBaseDeDatos(textBox1.Text, textBox2.Text, textBox3.Text, textBox5.Text, comboBox1.SelectedItem.ToString());
             
-          
-            // Limpiar los cuadros de texto después de agregar los datos
             textBox1.Text = "";
             textBox2.Text = "";
             textBox3.Text = "";
@@ -87,7 +78,6 @@ namespace RegistroUsuarios
             DataGridView dataGridView = null;
             string tabla = "";
 
-            // Determinar el DataGridView activo y la tabla correspondiente en la base de datos
             if (tabControl1.SelectedTab == tabPage1)
             {
                 dataGridView = dataGridView1;
@@ -99,17 +89,14 @@ namespace RegistroUsuarios
             {
                 DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
 
-                // Obtener el nombre del usuario de la fila seleccionada
                 string nombreUsuario = selectedRow.Cells[0].Value.ToString();
 
                 DialogResult result = MessageBox.Show("¿Estás seguro que deseas borrar esta fila?", "Confirmar Borrado", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    // Eliminar la fila del DataGridView
                     dataGridView.Rows.Remove(selectedRow);
 
-                    // Eliminar la fila correspondiente de la base de datos
                     EliminarFilaDeBaseDeDatos(tabla, nombreUsuario);
                 }
             }
@@ -122,18 +109,15 @@ namespace RegistroUsuarios
         {
             try
             {
-                // Abrir la conexión
                 Data.Connection con = new Data.Connection();
                 con.connOpen();
 
                 if (con.isConnected())
                 {
-                    // Consulta SQL para eliminar la fila
                     string queryEliminarFila = $"DELETE FROM {tabla} WHERE nombre = @nombre";
                     MySqlCommand cmdEliminarFila = new MySqlCommand(queryEliminarFila, Data.Connection.connMaster);
                     cmdEliminarFila.Parameters.AddWithValue("@nombre", nombreUsuario);
 
-                    // Ejecutar la consulta
                     bool exito = con.executeQuery(cmdEliminarFila);
 
                     if (exito)
@@ -162,7 +146,6 @@ namespace RegistroUsuarios
             DataGridView dataGridView = null;
             int currentRowIndex = -1;
 
-            // Determinar el DataGridView activo
             if (tabControl1.SelectedTab == tabPage1)
             {
                 dataGridView = dataGridView1;
@@ -170,27 +153,21 @@ namespace RegistroUsuarios
           
             if (dataGridView != null)
             {
-                // Obtener la fila seleccionada
                 DataGridViewRow selectedRow = dataGridView.CurrentRow;
                 if (selectedRow != null)
                 {
-                    // Mostrar los valores de la fila seleccionada en los cuadros de texto
                     textBox1.Text = selectedRow.Cells[0].Value.ToString();
                     textBox2.Text = selectedRow.Cells[1].Value.ToString();
                     textBox3.Text = selectedRow.Cells[2].Value.ToString();
                     textBox5.Text = selectedRow.Cells[3].Value.ToString();
 
-                    // Obtener el valor del rol de la fila seleccionada
                     string rol = selectedRow.Cells[4].Value.ToString();
 
-                    // Establecer el valor del rol en el combobox correspondiente
                     comboBox1.SelectedItem = rol;
 
-                    // Guardar el índice de la fila seleccionada para futuras referencias
                     currentRowIndex = selectedRow.Index;
                 }
             }
-            // Guardar el índice de la fila seleccionada para futuras referencias
             currentSelected = currentRowIndex;
         }
 
@@ -199,7 +176,6 @@ namespace RegistroUsuarios
             DataGridView dataGridView = null;
             string tabla = "";
 
-            // Determinar el DataGridView activo y la tabla correspondiente en la base de datos
             if (tabControl1.SelectedTab == tabPage1)
             {
                 dataGridView = dataGridView1;
@@ -210,21 +186,18 @@ namespace RegistroUsuarios
             {
                 DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
 
-                // Obtener los valores de la fila seleccionada
                 string nombre = selectedRow.Cells[0].Value.ToString();
                 string contra = selectedRow.Cells[1].Value.ToString();
                 string correo = selectedRow.Cells[2].Value.ToString();
                 string telefono = selectedRow.Cells[3].Value.ToString();
                 string rol = selectedRow.Cells[4].Value.ToString();
 
-                // Actualizar los valores con los datos de los cuadros de texto
                 selectedRow.Cells[0].Value = textBox1.Text;
                 selectedRow.Cells[1].Value = textBox2.Text;
                 selectedRow.Cells[2].Value = textBox3.Text;
                 selectedRow.Cells[3].Value = textBox5.Text;
                 selectedRow.Cells[4].Value = comboBox1.SelectedItem.ToString();
 
-                // Actualizar los datos en la base de datos
                 ActualizarDatosEnBaseDeDatos(tabla, nombre, textBox1.Text, textBox2.Text, textBox3.Text, comboBox1.SelectedItem.ToString());
             }
             else
@@ -237,13 +210,11 @@ namespace RegistroUsuarios
         {
             try
             {
-                // Abrir la conexión
                 Data.Connection con = new Data.Connection();
                 con.connOpen();
 
                 if (con.isConnected())
                 {
-                    // Consulta SQL para actualizar los datos en la base de datos
                     string queryActualizarFila = $"UPDATE {tabla} SET nombre = @nombreNuevo, contra = @contra, correo = @correo, telefono = @telefono, rol = @rol WHERE nombre = @nombreAntiguo";
                     MySqlCommand cmdActualizarFila = new MySqlCommand(queryActualizarFila, Data.Connection.connMaster);
                     cmdActualizarFila.Parameters.AddWithValue("@nombreNuevo", nombreNuevo);
@@ -253,7 +224,6 @@ namespace RegistroUsuarios
                     cmdActualizarFila.Parameters.AddWithValue("@telefono", textBox5.Text); 
                     cmdActualizarFila.Parameters.AddWithValue("@rol", rol);
 
-                    // Ejecutar la consulta
                     bool exito = con.executeQuery(cmdActualizarFila);
 
                     if (exito)
@@ -297,7 +267,6 @@ namespace RegistroUsuarios
                         }
                     }
 
-                    // Mostrar u ocultar la fila según si se encuentra la coincidencia
                     row.Visible = matchFound;
                 }
             }
@@ -305,23 +274,18 @@ namespace RegistroUsuarios
 
         private void GuardarDatosEnBaseDeDatos(string nombre, string contra, string correo, string telefono, string rol)
         {
-            Data.Connection con = null; // Definir la variable fuera del bloque try
+            Data.Connection con = null;
 
             try
             {
-                // Crear la conexión
                 con = new Data.Connection();
 
-                // Abrir la conexión
                 con.connOpen();
 
-                // Preparar la consulta SQL de inserción
                 string queryInsertarUsuario = $"INSERT INTO usuarios (nombre, contra, correo, telefono, rol) VALUES ('{nombre}', '{contra}', '{correo}','{telefono}', '{rol}')";
 
-                // Crear un nuevo comando SQL
                 MySqlCommand cmdInsertarUsuario = new MySqlCommand(queryInsertarUsuario, Data.Connection.connMaster);
 
-                // Ejecutar la consulta
                 bool exito = con.executeQuery(cmdInsertarUsuario);
 
                 if (exito)
@@ -339,7 +303,6 @@ namespace RegistroUsuarios
             }
             finally
             {
-                // Cerrar la conexión si se ha abierto previamente
                 if (con != null)
                     con.connClose();
             }
@@ -347,13 +310,8 @@ namespace RegistroUsuarios
 
         private void button7_Click(object sender, EventArgs e)
         {
-            // Ocultar el formulario actual
             this.Hide();
-
-            // Crear una instancia del Form2
             Form2 form2 = new Form2();
-
-            // Mostrar el Form2
             form2.Show();
         }
     }

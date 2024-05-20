@@ -25,19 +25,14 @@ namespace RegistroUsuarios
             string nombreUsuario = textBox1.Text;
             string contraseña = textBox2.Text;
 
-            // Verificar si el nombre de usuario y la contraseña son "admin"
             if (nombreUsuario == "admin" && contraseña == "admin")
             {
-                // Abrir Form1
                 Form1 form1 = new Form1();
                 form1.Show();
-
-                // Cerrar Form2
                 this.Hide();
             }
             else
             {
-                // Realizar la búsqueda en la base de datos
                 Data.Connection con = new Data.Connection();
                 con.connOpen();
 
@@ -57,14 +52,10 @@ namespace RegistroUsuarios
                 reader.Close();
                 con.connClose();
 
-                // Si el usuario y la contraseña son válidos, abrir el formulario correspondiente
                 if (usuarioValido)
                 {
-                    // Abrir Form3
                     Form3 form3 = new Form3(nombreUsuario);
-                    form3.Show();                 
-
-                    // Cerrar Form2
+                    form3.Show();         
                     this.Hide();
                 }
                 else

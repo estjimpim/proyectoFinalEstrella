@@ -22,35 +22,22 @@ namespace RegistroUsuarios
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Ocultar el formulario actual
             this.Hide();
 
-            // Crear una instancia del Form2
             Form3 form3 = new Form3(nombreUsuario);
 
-            // Mostrar el Form2
             form3.Show();
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            // Ocultar el formulario actual
             this.Hide();
 
-            // Crear una instancia del Form3
             Form3 form3 = new Form3(2, false);
 
-            // Mostrar el Form3
-            form3.Show();
-
-            
-
+            form3.Show();   
         }
+
         private void button1_Click_1(object sender, EventArgs e)
         {
             int ID = int.Parse(textBox5.Text);
@@ -65,37 +52,28 @@ namespace RegistroUsuarios
 
 
             GuardarDatosEnBaseDeDatos(ID, nombre, apellido1, apellido2, dni, ingreso, nacimiento, nombreFamiliar, telefonoFamiliar);
-            // Ocultar el formulario actual
             this.Hide();
-
-            // Crear una instancia del Form3
             Form3 form3 = new Form3(2, false);
-
-            // Mostrar el Form3
             form3.Show();
 
         }
 
         private void GuardarDatosEnBaseDeDatos(int ID, string nombre, string apellido1, string apellido2, string dni, DateTime ingreso, DateTime nacimiento, string nombreFamiliar, string telefonoFamiliar)
         {
-            Data.Connection con = null; // Definir la variable fuera del bloque try
+            Data.Connection con = null; 
 
             try
             {
-                // Crear la conexión
                 con = new Data.Connection();
-
-                // Abrir la conexión
                 con.connOpen();
 
-                // Preparar la consulta SQL de inserción usando parámetros
                 string queryInsertarUsuario = "INSERT INTO residentes (ID, nombre, apellido1, apellido2, dni, ingreso, nacimiento, nombrefamiliar, telefonofamiliar) " +
                                               "VALUES (@Id, @nombre, @apellido1, @apellido2, @dni, @ingreso, @nacimiento, @nombrefamiliar, @telefonofamiliar)";
 
-                // Crear un nuevo comando SQL
+             
                 MySqlCommand cmdInsertarUsuario = new MySqlCommand(queryInsertarUsuario, Data.Connection.connMaster);
 
-                // Agregar parámetros al comando SQL
+             
                 cmdInsertarUsuario.Parameters.AddWithValue("@ID", ID);
                 cmdInsertarUsuario.Parameters.AddWithValue("@nombre", nombre);
                 cmdInsertarUsuario.Parameters.AddWithValue("@apellido1", apellido1);
@@ -106,7 +84,6 @@ namespace RegistroUsuarios
                 cmdInsertarUsuario.Parameters.AddWithValue("@nombrefamiliar", nombreFamiliar);
                 cmdInsertarUsuario.Parameters.AddWithValue("@telefonofamiliar", telefonoFamiliar);
 
-                // Ejecutar la consulta
                 int rowsAffected = cmdInsertarUsuario.ExecuteNonQuery();
 
                 if (rowsAffected > 0)
@@ -124,13 +101,9 @@ namespace RegistroUsuarios
             }
             finally
             {
-                // Cerrar la conexión si se ha abierto previamente
                 if (con != null)
                     con.connClose();
             }
         }
-
-
-    }
-    
+    }    
 }
