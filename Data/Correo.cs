@@ -14,7 +14,7 @@ namespace RegistroUsuarios.Data
             //en google y el asunto
             string from = "estjimpim@gmail.com";
             string password = "nrts skyz ilrl nneq";
-            string alias = "Alta usuario ITP";
+            string alias = "Alta usuario ResiCare";
 
             //Cuerpo del correo electrónico
             string body;
@@ -41,7 +41,6 @@ namespace RegistroUsuarios.Data
 
             try
             {
-                //Enviar el correo electrónico
                 smtpClient.Send(mail);
                 MessageBox.Show("Correo enviado correctamente.");
             }

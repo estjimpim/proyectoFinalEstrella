@@ -242,7 +242,7 @@ namespace RegistroUsuarios
             this.comboBox1.Items.AddRange(new object[] {
             "Enfermería",
             "Educación Social",
-            "Trajo Social",
+            "Trabajo Social",
             "Terapia ocupacional"});
             this.comboBox1.Location = new System.Drawing.Point(379, 177);
             this.comboBox1.Name = "comboBox1";
